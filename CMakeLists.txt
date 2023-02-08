@@ -7,6 +7,7 @@ add_subdirectory(external)
 
 add_library(keeper source/cli.cpp)
 target_link_libraries(keeper PUBLIC CLI11::CLI11 -lstdc++)
+target_include_directories(keeper PUBLIC external)
 
 add_executable(keeper-driver source/main.cpp)
 target_link_libraries(keeper-driver PRIVATE keeper)
