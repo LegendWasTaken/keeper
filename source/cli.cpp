@@ -4,7 +4,7 @@
 #include <CLI/Formatter.hpp>
 #include <CLI/Config.hpp>
 
-keep::cli::options keep::cli::parse(int argc, char **argv) {
+keep::cli::options keep::cli::parse(int argc, const char *const *argv) {
   auto app = CLI::App("Keeper");
 
   auto args = options();

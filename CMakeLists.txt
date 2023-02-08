@@ -11,5 +11,6 @@ target_link_libraries(keeper PUBLIC CLI11::CLI11 -lstdc++)
 add_executable(keeper-driver source/main.cpp)
 target_link_libraries(keeper-driver PRIVATE keeper)
 
-add_executable(keeper-tests test/cli.h)
+add_executable(keeper-tests test/cli.cpp)
 target_link_libraries(keeper-tests PRIVATE keeper Catch2::Catch2WithMain)
+target_include_directories(keeper-tests PRIVATE source)
