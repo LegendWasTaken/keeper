@@ -1,6 +1,9 @@
 #include <iostream>
 
-int main() {
-  std::cout << "Hello, World!" << std::endl;
+#include "cli.h"
+
+int main(int argc, char** argv) {
+  const auto options = keep::cli::parse(argc, argv);
+
   return 0;
 }
