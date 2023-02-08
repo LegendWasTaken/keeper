@@ -26,7 +26,7 @@ namespace keep::cli {
    * @param argv
    * @return Options struct with populated values (or defaults)
    */
-  [[nodiscard]] std::optional<options> parse(int argc, const char* const* argv);
+  [[nodiscard]] options parse(int argc, const char* const* argv);
 }
 
 #endif //KEEPER_CLI_H

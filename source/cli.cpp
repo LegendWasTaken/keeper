@@ -22,7 +22,7 @@ std::optional<keep::cli::options> keep::cli::try_parse(int argc, const char *con
   return args;
 }
 
-std::optional<keep::cli::options> keep::cli::parse(int argc, const char *const *argv) {
+keep::cli::options keep::cli::parse(int argc, const char *const *argv) {
   const auto optional_options = try_parse(argc, argv);
   if (optional_options.has_value()) {
     return optional_options.value();
