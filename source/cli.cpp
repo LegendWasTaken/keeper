@@ -4,7 +4,7 @@
 #include <CLI/Formatter.hpp>
 #include <CLI/Config.hpp>
 
-keep::cli::options keep::cli::parse(int argc, const char *const *argv) {
+std::optional<keep::cli::options> keep::cli::parse(int argc, const char *const *argv) {
   auto app = CLI::App("Keeper");
 
   auto args = options();
@@ -16,7 +16,7 @@ keep::cli::options keep::cli::parse(int argc, const char *const *argv) {
   try {
     app.parse(argc, argv);
   } catch (CLI::ParseError &e) {
-    // Todo: Log error
+    return std::nullopt;
   }
 
   return args;

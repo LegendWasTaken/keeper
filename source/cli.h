@@ -2,6 +2,7 @@
 #define KEEPER_CLI_H
 
 #include <string>
+#include <optional>
 
 namespace keep::cli {
   struct options {
@@ -17,7 +18,7 @@ namespace keep::cli {
    * @param argv Arguments
    * @return Options struct with populated values (or defaults)
    */
-  [[nodiscard]] options parse(int argc, const char* const* argv);
+  [[nodiscard]] std::optional<options> parse(int argc, const char* const* argv);
 }
 
 #endif //KEEPER_CLI_H
