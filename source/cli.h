@@ -16,7 +16,7 @@ namespace keep::cli {
    * Parses arguments from the command line into options struct
    * @param argc Argument count
    * @param argv Arguments
-   * @return Options struct with populated values (or defaults)
+   * @return An optional, containing the options struct with populated values (or defaults) if successful
    */
   [[nodiscard]] std::optional<options> try_parse(int argc, const char* const* argv) noexcept;
 }
