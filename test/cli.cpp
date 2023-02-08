@@ -16,7 +16,7 @@ namespace {
   return args;
 }
 
-TEST_CASE("Default args", "[cli]") {
+TEST_CASE("Default args", "[cli.try_parse]") {
   const auto args = create_args({});
   const auto options = keep::cli::try_parse(static_cast<int>(args.size()), args.data());
 
@@ -26,7 +26,7 @@ TEST_CASE("Default args", "[cli]") {
   REQUIRE(options->path.empty());
 }
 
-TEST_CASE("init arg", "[cli]") {
+TEST_CASE("init arg", "[cli.try_parse]") {
   const auto args = create_args({"--init"});
   const auto options = keep::cli::try_parse(static_cast<int>(args.size()), args.data());
 
@@ -36,7 +36,7 @@ TEST_CASE("init arg", "[cli]") {
   REQUIRE(options->path.empty());
 }
 
-TEST_CASE("write_service arg", "[cli]") {
+TEST_CASE("write_service arg", "[cli.try_parse]") {
   const auto args = create_args({"--write_service"});
   const auto options = keep::cli::try_parse(static_cast<int>(args.size()), args.data());
 
@@ -46,7 +46,7 @@ TEST_CASE("write_service arg", "[cli]") {
   REQUIRE(options->path.empty());
 }
 
-TEST_CASE("path arg", "[cli]") {
+TEST_CASE("path arg", "[cli.try_parse]") {
   const auto args = create_args({"--path", "foobar"});
   const auto options = keep::cli::try_parse(static_cast<int>(args.size()), args.data());
 
@@ -56,11 +56,16 @@ TEST_CASE("path arg", "[cli]") {
   REQUIRE(options->path == "foobar");
 }
 
-TEST_CASE("nonsense arguments", "[cli]") {
+TEST_CASE("nonsense arguments", "[cli.try_parse]") {
   const auto args = create_args({"nonsense"});
   const auto options = keep::cli::try_parse(static_cast<int>(args.size()), args.data());
 
   REQUIRE(!options.has_value());
+}
+
+TEST_CASE("nonsense arguments", "[cli.parse]") {
+  const auto args = create_args({"nonsense"});
+  REQUIRE_THROWS(keep::cli::parse(static_cast<int>(args.size()), args.data()));
 }
 
 }
