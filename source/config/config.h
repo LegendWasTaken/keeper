@@ -70,7 +70,7 @@ template <>
 
 template<typename T>
 concept Configurable = requires(T t, toml::table read_table) {
-  std::is_same<typename T::name, std::string_view>::value;
+//  std::is_same<typename T::name, std::string_view>::value;
   parse_toml<T>(read_table);
 };
 
@@ -78,12 +78,13 @@ concept Configurable = requires(T t, toml::table read_table) {
  * Will attempt to read config of the specified type from the passed config string
  * @tparam Config a valid configurable type to read
  * @param contents the config string
- * @return An optional of the Config type, full if read successful, empty if failed
+ * @return The parsed config
+ * @throw toml::parse_error On failure to parse the string
  */
 template<Configurable Config>
-[[nodiscard]] std::optional<Config> try_read(std::string_view contents, const std::filesystem::path &path) noexcept {
-  const auto table = toml::parse(contents, path);
-
+[[nodiscard]] Config parse_from_string(std::string_view contents) {
+  const auto table = toml::parse(contents);
+  return parse_toml<Config>(table);
 }
 }
 
@@ -91,30 +92,15 @@ template<Configurable Config>
  * Will attempt to read config of the specified type
  * @tparam Config a valid configurable type to read
  * @param folder the folder that the file is located in
- * @return An optional of the Config type, full if read successful, empty if failed
+ * @return The read config
+ * @throw toml::parse_error On failure to parse the file
  */
 template<detail::Configurable Config>
-[[nodiscard]] std::optional<Config> try_read(const std::filesystem::path &folder) noexcept {
+[[nodiscard]] std::optional<Config> read(const std::filesystem::path &folder) {
   const auto file = folder / Config::name;
   auto stream = std::ifstream(file);
   const auto contents = std::string(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
-  return try_read<Config>(contents, file);
-}
-
-/**
- * Will attempt to read config of the specified type
- * @tparam Config a valid configurable type to read
- * @param folder the folder that the file is located in
- * @return The read config, throws if there a failure reading
- */
-template<detail::Configurable Config>
-[[nodiscard]] Config read(const std::filesystem::path &folder) {
-  const auto attempted_read = try_read<Config>(folder);
-  if (attempted_read.has_value()) {
-    return attempted_read.value();
-  } else {
-    throw std::runtime_error("failed to read config");
-  }
+  return detail::parse_from_string<Config>(contents);
 }
 }
 

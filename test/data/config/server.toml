@@ -1,0 +1,12 @@
+ip = "192.168.0.2" # IP that server will bind to
+port = "25566" # Port server will bind to
+timeout = 5001 # Timeout in milliseconds
+
+[threads]
+queue = 5 # Number of threads used for processing resource requests
+request = 6 # Number of threads used for handling http requests
+
+[responses]
+not_found = "./respond/404.jsona"
+success = "./respond/found.jsona"
+timeout = "./respond/timeout.jsona"
